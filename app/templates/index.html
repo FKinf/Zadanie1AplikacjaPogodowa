@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikacja Pogodowa</title>
+    <script>
+        const locations = {{ locations | tojson }};
+        function updateCities() {
+            const country = document.getElementById('country').value;
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="">-- wybierz miasto --</option>';
+            if (country && locations[country]) {
+                locations[country].forEach(city => {
+                    const opt = document.createElement('option');
+                    opt.value = city;
+                    opt.textContent = city;
+                    citySelect.appendChild(opt);
+                });
+            }
+        }
+        window.onload = function() {
+            {% if selected_country %}
+            document.getElementById('country').value = "{{ selected_country }}";
+            updateCities();
+            document.getElementById('city').value = "{{ selected_city }}";
+            {% endif %}
+        };
+    </script>
+</head>
+<body>
+    <div class="card">
+        <h1>Pogoda</h1>
+        <p class="subtitle">Autor: {{ author }}</p>
+
+        <form method="POST">
+            <label for="country">Kraj</label>
+            <select id="country" name="country" onchange="updateCities()" required>
+                <option value="">-- wybierz kraj --</option>
+                {% for country in locations %}
+                <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="city">Miasto</label>
+            <select id="city" name="city" required>
+                <option value="">-- wybierz miasto --</option>
+            </select>
+
+            <button type="submit">Sprawdź pogodę</button>
+        </form>
+
+        {% if error %}
+        <div class="error">⚠ {{ error }}</div>
+        {% endif %}
+
+        {% if weather %}
+        <div class="weather-box">
+            <div class="desc">{{ weather.description }}</div>
+            <div class="temp-main">Temperatura: {{ weather.temp }}<span>°C</span></div>
+            <div class="details">
+                <div class="detail-item">
+                    <div class="val">Temperatura odczuwalna: {{ weather.feels_like }} °C</div>
+                </div>
+                <div class="detail-item">
+                    <div class="val">Wilgotność: {{ weather.humidity }}%</div>
+                </div>
+                <div class="detail-item">
+                    <div class="val">Wiatr: {{ weather.wind }} km/h</div>
+                </div>
+                <div class="detail-item">
+                    <div class="val">Ciśnienie: {{ weather.pressure }} hPa</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
