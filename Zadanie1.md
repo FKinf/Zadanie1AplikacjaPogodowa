@@ -54,9 +54,33 @@ wynik:
 
 d) Liczba warstw 
 
-docker inspect weather-app:latest | grep -c "sha256"
+docker history weather-app:latest
 wynik:
-12
+IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
+bdc85e2c8b8f   2 hours ago    CMD ["gunicorn" "-w" "2" "-b" "0.0.0.0:8080"…   0B        buildkit.dockerfile.v0
+<missing>      2 hours ago    HEALTHCHECK &{["CMD-SHELL" "python3 -c \"imp…   0B        buildkit.dockerfile.v0
+<missing>      2 hours ago    EXPOSE map[8080/tcp:{}]                         0B        buildkit.dockerfile.v0
+<missing>      2 hours ago    USER appuser                                    0B        buildkit.dockerfile.v0
+<missing>      2 hours ago    RUN /bin/sh -c chown -R appuser:appuser /app…   24.6kB    buildkit.dockerfile.v0
+<missing>      2 hours ago    COPY app/ . # buildkit                          24.6kB    buildkit.dockerfile.v0
+<missing>      2 hours ago    COPY /install /usr/local # buildkit             10.9MB    buildkit.dockerfile.v0
+<missing>      2 hours ago    WORKDIR /app                                    8.19kB    buildkit.dockerfile.v0
+<missing>      2 hours ago    RUN /bin/sh -c adduser --disabled-password -…   73.7kB    buildkit.dockerfile.v0
+<missing>      2 hours ago    ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFER…   0B        buildkit.dockerfile.v0
+<missing>      2 hours ago    LABEL org.opencontainers.image.version=1.0.0    0B        buildkit.dockerfile.v0
+<missing>      2 hours ago    LABEL org.opencontainers.image.description=A…   0B        buildkit.dockerfile.v0
+<missing>      2 hours ago    LABEL org.opencontainers.image.title=Weather…   0B        buildkit.dockerfile.v0
+<missing>      2 hours ago    LABEL org.opencontainers.image.authors=Filip…   0B        buildkit.dockerfile.v0
+<missing>      46 hours ago   CMD ["python3"]                                 0B        buildkit.dockerfile.v0
+<missing>      46 hours ago   RUN /bin/sh -c set -eux;  for src in idle3 p…   16.4kB    buildkit.dockerfile.v0
+<missing>      46 hours ago   RUN /bin/sh -c set -eux;   savedAptMark="$(a…   41.4MB    buildkit.dockerfile.v0
+<missing>      46 hours ago   ENV PYTHON_SHA256=c08bc65a81971c1dd578318282…   0B        buildkit.dockerfile.v0
+<missing>      46 hours ago   ENV PYTHON_VERSION=3.12.13                      0B        buildkit.dockerfile.v0
+<missing>      46 hours ago   ENV GPG_KEY=7169605F62C751356D054A26A821E680…   0B        buildkit.dockerfile.v0
+<missing>      46 hours ago   RUN /bin/sh -c set -eux;  apt-get update;  a…   4.94MB    buildkit.dockerfile.v0
+<missing>      46 hours ago   ENV LANG=C.UTF-8                                0B        buildkit.dockerfile.v0
+<missing>      46 hours ago   ENV PATH=/usr/local/bin:/usr/local/sbin:/usr…   0B        buildkit.dockerfile.v0
+<missing>      5 days ago     # debian.sh --arch 'amd64' out/ 'trixie' '@1…   87.4MB    debuerreotype 0.17
 
 e) Rozmiar obrazu
 
